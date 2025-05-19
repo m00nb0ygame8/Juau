@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.moon.juau'
-version = '1.0-SNAPSHOT'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -18,12 +18,12 @@ test {
     useJUnitPlatform()
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDir 'src/main/resources'
-            include '**/*.dll'
-        }
-    }
-}
+//sourceSets {
+//    main {
+//        resources {
+//            srcDir 'src/main/resources'
+//            include '**/*.dll'
+//        }
+//    }
+//}
 
