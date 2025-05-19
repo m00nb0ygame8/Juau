@@ -9,6 +9,43 @@ LuauRunner runner = new LuauRunner();
 Next, lets run the Hello World program in Luau.
 ```java
 runner.run("""
-print('hi from luau')
+  print('hi from luau')
+  """);
+```
+Make sure at the end of your code you call
+```java
+runner.close();
+```
+## Other Features
+Now, java can define modules for Luau to use. Here is an example.
+```java
+runner.setModule(runner.getState(), "magic", """
+local test = {}
+                
+function test.magic()
+  print('hello')
+end
+function test.abc()
+  print('efg')
+end
+                
+return test
 """);
+
+//Then you can run it by doing this
+runner.run("""
+  local magic = require("magic")
+  magic.magic()
+  magic.abc()
+  """);
+```
+You can also call Java code from Luau by doing.
+```java
+runner.expose("javaAdd", args -. {
+  double a = ((Number) args[0]).doubleValue();
+  double b = ((Number) args[1]).doubleValue();
+  return a + b;
+});
+//This will be moved all into runner.expose soon
+runner.nativeExpose(runner.getState(), "javaAdd", List.of("number", "number"), "number");
 ```
