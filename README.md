@@ -49,3 +49,18 @@ runner.expose("javaAdd", args -. {
 //This will be moved all into runner.expose soon
 runner.nativeExpose(runner.getState(), "javaAdd", List.of("number", "number"), "number");
 ```
+You can call Lua code from Java by doing
+```java
+//All functions callable by Java must be global
+runner.run("""
+  function myFunc(a: number, b: string, c: boolean)
+    print("a:", a, "b:", b, "c:", c)
+    return a .. b
+  end
+""");
+  Object result = runner.callLua(runner.getState(), "myFunc", new Object[] { 1.5, "hello", true });
+  System.out.println("Result: " + result);
+//Console:
+//1) Result: 1.5hello
+//2) a:  1.5 b:  hello c:  true
+```
