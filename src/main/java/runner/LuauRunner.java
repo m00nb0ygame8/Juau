@@ -1,15 +1,18 @@
 package runner;
 
-import java.io.IOException;
+import com.sun.tools.javac.Main;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
 public class LuauRunner {
     static {
-        System.load("C:\\Users\\zacha\\Documents\\Juau\\src\\main\\java\\runner\\luaujni.dll");
+        loadNativeLibrary("luaujni");
     }
 
     private long state;
@@ -58,4 +61,25 @@ public class LuauRunner {
     public void close() {
         closeState(state);
     }
+
+    public static void loadNativeLibrary(String name) {
+        try(InputStream in = LuauRunner.class.getClassLoader().getResourceAsStream(name+".dll")) {
+            if (in == null ) throw new RuntimeException("Failed to load native library: " + name);
+            File temp = Files.createTempFile(name, ".dll").toFile();
+            temp.deleteOnExit();
+
+            try (FileOutputStream out = new FileOutputStream(temp)) {
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, len);
+                }
+            }
+
+            System.load(temp.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

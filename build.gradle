@@ -1,8 +1,9 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
-group = 'me.moon'
+group = 'com.moon.juau'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -17,3 +18,34 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            groupId = 'com.moon.juau'
+            artifactId = 'juau'
+            version = '1.0.0'
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/m00nb0ygame8/Juau")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/main/resources'
+            include '**/*.dll'
+        }
+    }
+}
+
