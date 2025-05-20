@@ -26,4 +26,19 @@ test {
 //        }
 //    }
 //}
+jar {
+    from(sourceSets.main.output)
+
+    // Optionally include a LICENSE
+    // from('.') {
+    //     include 'LICENSE'
+    // }
+
+    manifest {
+        attributes(
+                'Implementation-Title': 'Juau',
+                'Implementation-Version': version
+        )
+    }
+}
 
