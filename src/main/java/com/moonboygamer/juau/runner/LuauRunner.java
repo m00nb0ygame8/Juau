@@ -1,4 +1,4 @@
-package runner;
+package com.moonboygamer.juau.runner;
 
 import java.io.*;
 import java.nio.file.Files;

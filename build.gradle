@@ -18,17 +18,13 @@ test {
     useJUnitPlatform()
 }
 
-//sourceSets {
-//    main {
-//        resources {
-//            srcDir 'src/main/resources'
-//            include '**/*.dll'
-//        }
-//    }
-//}
 jar {
     from(sourceSets.main.output)
 
+    // Include your native DLL if needed
+//    from('src/main/resources') {
+//        include '**/*.dll'
+//    }
     // Optionally include a LICENSE
     // from('.') {
     //     include 'LICENSE'
